@@ -84,7 +84,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                     ),
                   ),
                 ),
-                _getBottomSheetWidget(),
+                _getBottomSheetWidget(sliderViewObject),
               ],
             ),
           ),
@@ -118,10 +118,10 @@ class _OnBoardingViewState extends State<OnBoardingView> {
           ),
           Row(
             children: [
-              for (int i = 0; i < _list.length; i++)
+              for (int i = 0; i < sliderViewObject.numOfSlide; i++)
                 Padding(
                   padding: const EdgeInsets.all(AppPadding.p8),
-                  child: _getProperCircle(i),
+                  child: _getProperCircle(i, sliderViewObject.currentIndex),
                 ),
             ],
           ),
@@ -129,7 +129,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
             padding: const EdgeInsets.all(AppPadding.p14),
             child: GestureDetector(
               onTap: () => _pageController.animateToPage(
-                _getNextIndex(),
+                _onBoardingViewModel.goNext(),
                 duration: const Duration(milliseconds: DurationConstant.d300),
                 curve: Curves.bounceInOut,
               ),
@@ -145,17 +145,9 @@ class _OnBoardingViewState extends State<OnBoardingView> {
     );
   }
 
-  int _getNextIndex() {
-    int nextIndex = _currentIndex++; //-1
-    if (nextIndex >= _list.length) {
-      //infinite loop to go to first item item inside the slider
-      _currentIndex = 0;
-    }
-    return _currentIndex;
-  }
 
-  Widget _getProperCircle(int index) {
-    if (index == _currentIndex) {
+  Widget _getProperCircle(int index, int currentIndex) {
+    if (index == currentIndex) {
       return SvgPicture.asset(ImageAssets.solidCircle);
     } else {
       return SvgPicture.asset(ImageAssets.ringCircle);
