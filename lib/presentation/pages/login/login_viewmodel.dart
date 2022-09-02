@@ -1,29 +1,41 @@
+import 'dart:async';
+
 import 'package:clean_architecture_with_mvvm/presentation/base/base_viewmodel.dart';
 
 class LoginViewModel extends BaseViewModel
     with LoginViewModelInputs, LoginViewModelOutputs {
-  //inputes
-  @override
-  void dispose() {
-    // TODO: implement dispose
-  }
+  final StreamController _userNameStreamController =
+      StreamController<String>.broadcast();
+  final StreamController _passwordStreamController =
+      StreamController<String>.broadcast();
 
   @override
   void start() {
     // TODO: implement start
   }
 
+  //inputs
   @override
-  // TODO: implement inputPassword
-  Sink get inputPassword => throw UnimplementedError();
+  void dispose() {
+    _userNameStreamController.close();
+    _passwordStreamController.close();
+  }
 
   @override
-  // TODO: implement inputUsername
-  Sink get inputUsername => throw UnimplementedError();
+  Sink get inputUsername => _userNameStreamController.sink;
+
+  @override
+  Sink get inputPassword => _passwordStreamController.sink;
 
   @override
   login() {
     // TODO: implement login
+    throw UnimplementedError();
+  }
+
+  @override
+  setUserName(String userName) {
+    // TODO: implement setUserName
     throw UnimplementedError();
   }
 
@@ -35,18 +47,26 @@ class LoginViewModel extends BaseViewModel
   }
 
   @override
-  setUserName(String userName) {
-    // TODO: implement setUserName
-    throw UnimplementedError();
-  }
+  // TODO: implement outputIsUsernameValid
+  Stream<bool> get outputIsUsernameValid =>
+      _userNameStreamController.stream.map(
+        (username) => _isUsernameValid(username),
+      );
 
   @override
   // TODO: implement outputIsPasswordValid
-  Stream<bool> get outputIsPasswordValid => throw UnimplementedError();
+  Stream<bool> get outputIsPasswordValid =>
+      _passwordStreamController.stream.map(
+        (password) => _isPasswordValid(password),
+      );
 
-  @override
-  // TODO: implement outputIsUsernameValid
-  Stream<bool> get outputIsUsernameValid => throw UnimplementedError();
+  bool _isUsernameValid(String username) {
+    return username.isNotEmpty;
+  }
+
+  bool _isPasswordValid(String password) {
+    return password.isNotEmpty && password.length > 6;
+  }
 }
 
 abstract class LoginViewModelInputs {
