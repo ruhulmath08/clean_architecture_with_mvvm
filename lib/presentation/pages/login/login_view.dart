@@ -10,8 +10,10 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(child: Text('Login'),),
+    return const Scaffold(
+      body: Center(
+        child: Text('Login'),
+      ),
     );
   }
 }

@@ -6,3 +6,9 @@ void main() {
 }
 
 //upto: lecture 29
+
+//script
+/*
+* Auto Generate model: flutter pub get && flutter pub run build_runner build --delete-conflicting-outputs
+*
+* */

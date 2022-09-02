@@ -1,4 +1,4 @@
-import 'package:clean_architecture_with_mvvm/domain/model.dart';
+import 'package:clean_architecture_with_mvvm/domain/entities/model.dart';
 import 'package:clean_architecture_with_mvvm/presentation/manager/assets_manager.dart';
 import 'package:clean_architecture_with_mvvm/presentation/manager/color_manager.dart';
 import 'package:clean_architecture_with_mvvm/presentation/manager/routes_manager.dart';
