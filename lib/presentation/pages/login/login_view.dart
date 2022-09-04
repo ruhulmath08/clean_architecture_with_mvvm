@@ -1,3 +1,4 @@
+import 'package:clean_architecture_with_mvvm/app/di.dart';
 import 'package:clean_architecture_with_mvvm/data/data_sources/remote_data_source.dart';
 import 'package:clean_architecture_with_mvvm/data/repositories/repository_impl.dart';
 import 'package:clean_architecture_with_mvvm/domain/repositories/repository.dart';
@@ -18,8 +19,8 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  
-  final LoginViewModel _loginViewModel = LoginViewModel(loginUseCase);
+
+  final LoginViewModel _loginViewModel = instance<LoginViewModel>();
 
   final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
