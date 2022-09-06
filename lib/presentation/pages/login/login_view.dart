@@ -1,8 +1,5 @@
 import 'package:clean_architecture_with_mvvm/app/di.dart';
-import 'package:clean_architecture_with_mvvm/data/data_sources/remote_data_source.dart';
-import 'package:clean_architecture_with_mvvm/data/repositories/repository_impl.dart';
-import 'package:clean_architecture_with_mvvm/domain/repositories/repository.dart';
-import 'package:clean_architecture_with_mvvm/domain/use_cases/login_usecase.dart';
+import 'package:clean_architecture_with_mvvm/presentation/common/state_renderer/state_render_impl.dart';
 import 'package:clean_architecture_with_mvvm/presentation/manager/assets_manager.dart';
 import 'package:clean_architecture_with_mvvm/presentation/manager/color_manager.dart';
 import 'package:clean_architecture_with_mvvm/presentation/manager/routes_manager.dart';
@@ -19,7 +16,6 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-
   final LoginViewModel _loginViewModel = instance<LoginViewModel>();
 
   final TextEditingController _userNameController = TextEditingController();
@@ -52,25 +48,38 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorManager.white,
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(AppPadding.p14),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Image(image: AssetImage(ImageAssets.splashLogo)),
-                const SizedBox(height: AppSize.s28),
-                _usernameFormField(),
-                const SizedBox(height: AppSize.s20),
-                _passwordFormField(),
-                const SizedBox(height: AppSize.s20),
-                _loginButton(),
-                const SizedBox(height: AppSize.s20),
-                _forgetPasswordAndSignInOption(),
-              ],
-            ),
+      body: StreamBuilder<FlowState>(
+        stream: _loginViewModel.outputState,
+        builder: (context, snapshot) {
+          return snapshot.data?.getScreenWidget(context, _getContentWidget(),
+                  () {
+                _loginViewModel.login();
+              }) ??
+              _getContentWidget();
+        },
+      ),
+    );
+  }
+
+  Widget _getContentWidget() {
+    return Center(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(AppPadding.p14),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Image(image: AssetImage(ImageAssets.splashLogo)),
+              const SizedBox(height: AppSize.s28),
+              _usernameFormField(),
+              const SizedBox(height: AppSize.s20),
+              _passwordFormField(),
+              const SizedBox(height: AppSize.s20),
+              _loginButton(),
+              const SizedBox(height: AppSize.s20),
+              _forgetPasswordAndSignInOption(),
+            ],
           ),
         ),
       ),
