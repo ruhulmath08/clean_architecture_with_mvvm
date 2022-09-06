@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
-const String applicationJson = 'applications/json';
+const String applicationJson = 'application/json';
 const String contentType = 'content-type';
 const String accept = 'accept';
 const String authorization = 'authorization';

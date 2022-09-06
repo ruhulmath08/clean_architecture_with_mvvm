@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:clean_architecture_with_mvvm/domain/use_cases/login_usecase.dart';
 import 'package:clean_architecture_with_mvvm/presentation/base/base_viewmodel.dart';
 import 'package:clean_architecture_with_mvvm/presentation/common/freezed_date_class.dart';
+import 'package:clean_architecture_with_mvvm/presentation/common/state_renderer/state_render_impl.dart';
+import 'package:clean_architecture_with_mvvm/presentation/common/state_renderer/state_renderer.dart';
 
 class LoginViewModel extends BaseViewModel
     with LoginViewModelInputs, LoginViewModelOutputs {
@@ -21,7 +23,8 @@ class LoginViewModel extends BaseViewModel
 
   @override
   void start() {
-    // TODO: implement start
+    //view tells state renderer, please show the content of the screen
+    inputState.add(ContentState());
   }
 
   //inputs
@@ -43,17 +46,20 @@ class LoginViewModel extends BaseViewModel
 
   @override
   login() async {
+    inputState.add(
+      LoadingState(stateRendererType: StateRendererType.fullScreenLoadingState),
+    );
     (await _loginUseCase.execute(
       LoginUseCaseInput(loginObject.username, loginObject.password),
     ))
         .fold(
       (failure) => {
-        //left -> failure
-        print(failure.message),
+        inputState.add(ErrorState(
+            StateRendererType.fullScreenErrorState, failure.message)),
       },
       (data) => {
-        //right -> success (data)
-        print(data.customer?.name),
+        inputState.add(ContentState()),
+        //navigate to main screen after login
       },
     );
   }
@@ -101,19 +107,14 @@ class LoginViewModel extends BaseViewModel
   }
 
   bool _isUsernameValid(String username) {
-    print('Username: ${username.isNotEmpty}');
     return username.isNotEmpty;
   }
 
   bool _isPasswordValid(String password) {
-    print('Username: ${password.isNotEmpty}');
     return password.isNotEmpty;
   }
 
   bool _isAllInputValid() {
-    print(
-      'Username-Password: ${(_isUsernameValid(loginObject.username) && _isPasswordValid(loginObject.password))}',
-    );
     return _isUsernameValid(loginObject.username) &&
         _isPasswordValid(loginObject.password);
   }
