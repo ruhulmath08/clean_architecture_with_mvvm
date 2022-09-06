@@ -1,3 +1,4 @@
+import 'package:clean_architecture_with_mvvm/app/app_preferences.dart';
 import 'package:clean_architecture_with_mvvm/app/di.dart';
 import 'package:clean_architecture_with_mvvm/presentation/common/state_renderer/state_render_impl.dart';
 import 'package:clean_architecture_with_mvvm/presentation/manager/assets_manager.dart';
@@ -7,6 +8,7 @@ import 'package:clean_architecture_with_mvvm/presentation/manager/string_manager
 import 'package:clean_architecture_with_mvvm/presentation/manager/value_manager.dart';
 import 'package:clean_architecture_with_mvvm/presentation/pages/login/login_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -17,6 +19,7 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   final LoginViewModel _loginViewModel = instance<LoginViewModel>();
+  final AppPreferences _appPreferences = instance<AppPreferences>();
 
   final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -29,6 +32,15 @@ class _LoginViewState extends State<LoginView> {
     );
     _passwordController.addListener(
       () => _loginViewModel.setPassword(_passwordController.text),
+    );
+
+    _loginViewModel.isUserLoggedInSuccessfullyStreamController.stream.listen(
+      (isSuccessLoggedIn) {
+        SchedulerBinding.instance.addPostFrameCallback((_) {
+          _appPreferences.isIsUserLoggedIn();
+          Navigator.of(context).pushReplacementNamed(Routes.mainRoute);
+        });
+      },
     );
   }
 
