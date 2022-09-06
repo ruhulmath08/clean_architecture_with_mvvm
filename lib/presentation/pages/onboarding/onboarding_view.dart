@@ -1,3 +1,5 @@
+import 'package:clean_architecture_with_mvvm/app/app_preferences.dart';
+import 'package:clean_architecture_with_mvvm/app/di.dart';
 import 'package:clean_architecture_with_mvvm/domain/entities/model.dart';
 import 'package:clean_architecture_with_mvvm/presentation/manager/assets_manager.dart';
 import 'package:clean_architecture_with_mvvm/presentation/manager/color_manager.dart';
@@ -19,8 +21,11 @@ class OnBoardingView extends StatefulWidget {
 class _OnBoardingViewState extends State<OnBoardingView> {
   final PageController _pageController = PageController(initialPage: 0);
   final OnBoardingViewModel _onBoardingViewModel = OnBoardingViewModel();
+  final AppPreferences _appPreferences = instance<AppPreferences>();
+
 
   _bind() {
+    _appPreferences.setOnBoardingScreenViewed();
     _onBoardingViewModel.start();
   }
 
