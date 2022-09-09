@@ -41,4 +41,31 @@ class RepositoryImpl extends Repository {
       return Left(DataSource.noInternetConnection.getFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, String>> forgotPassword(String email) async{
+    if (await _networkInfo.isConnect) {
+      try {
+        //safe to call the API
+        final response = await _remoteDataSource.forgetPassword(email);
+        if (response.status == ApiInternalStatus.success) {
+          //return data
+          return Right(response.toDomain());
+        } else {
+          //return business logic data
+          return Left(
+            Failure(
+              response.status ?? ResponseCode.defaults,
+              response.message ?? ResponseMessage.defaults,
+            ),
+          );
+        }
+      } catch (error) {
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    } else {
+      //return connection error
+      return Left(DataSource.noInternetConnection.getFailure());
+    }
+  }
 }

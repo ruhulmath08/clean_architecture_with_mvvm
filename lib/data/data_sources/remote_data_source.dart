@@ -4,6 +4,8 @@ import 'package:clean_architecture_with_mvvm/data/responses/responses.dart';
 
 abstract class RemoteDataSource {
   Future<AuthenticationResponse> login(LoginRequest loginRequest);
+
+  Future<ForgetPasswordResponse> forgetPassword(String email);
 }
 
 class RemoteDataSourceImplementations implements RemoteDataSource {
@@ -19,5 +21,10 @@ class RemoteDataSourceImplementations implements RemoteDataSource {
       '', //ToDo: have to pass -> loginRequest.imei
       '', //ToDo: have to pass -> loginRequest.deviceType
     );
+  }
+
+  @override
+  Future<ForgetPasswordResponse> forgetPassword(String email) async {
+    return await _appServiceClient.forgotPassword(email);
   }
 }

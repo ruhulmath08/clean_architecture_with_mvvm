@@ -32,3 +32,9 @@ extension AuthenticationMapper on AuthenticationResponse? {
     );
   }
 }
+
+extension ForgetPasswordMapper on ForgetPasswordResponse? {
+  String toDomain() {
+    return this?.support?.orEmpty() ?? Constant.empty;
+  }
+}

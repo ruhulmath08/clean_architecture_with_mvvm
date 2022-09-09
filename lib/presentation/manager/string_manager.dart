@@ -29,4 +29,10 @@ class AppString {
   static const String loading = 'Loading...';
   static const String reTryAgain = 'Retry Again';
   static const String ok = 'Ok';
+
+  //forgetPassword
+  static const String email = 'Email';
+  static const String emailError = 'Email error';
+  static const String resetPassword = 'Reset Password';
+  static const String resendEmail = '''Don't receive email? Resend''';
 }
