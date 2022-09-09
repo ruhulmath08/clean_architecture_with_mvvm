@@ -35,4 +35,5 @@ class AppString {
   static const String emailError = 'Email error';
   static const String resetPassword = 'Reset Password';
   static const String resendEmail = '''Don't receive email? Resend''';
+  static const String success = 'Success';
 }
