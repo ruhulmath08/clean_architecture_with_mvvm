@@ -5,7 +5,9 @@ import 'package:clean_architecture_with_mvvm/data/network/dio_factory.dart';
 import 'package:clean_architecture_with_mvvm/data/network/network_info.dart';
 import 'package:clean_architecture_with_mvvm/data/repositories/repository_impl.dart';
 import 'package:clean_architecture_with_mvvm/domain/repositories/repository.dart';
+import 'package:clean_architecture_with_mvvm/domain/use_cases/forgot_password_use_case.dart';
 import 'package:clean_architecture_with_mvvm/domain/use_cases/login_usecase.dart';
+import 'package:clean_architecture_with_mvvm/presentation/pages/forget_password/forgot_password_viewmodel.dart';
 import 'package:clean_architecture_with_mvvm/presentation/pages/login/login_viewmodel.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -53,7 +55,11 @@ initLoginModule() {
   }
 }
 
-// RemoteDataSource _remoteDataSource =
-//     RemoteDataSourceImplementations(_appServiceClient);
-// Repository _repository = RepositoryImpl(_remoteDataSource, _networkInfo);
-// LoginUseCase loginUseCase = LoginUseCase(_repository);
+initForgotPasswordModule() {
+  if (!GetIt.I.isRegistered<ForgotPasswordUseCase>()) {
+    instance.registerFactory<ForgotPasswordUseCase>(
+        () => ForgotPasswordUseCase(instance()));
+    instance.registerFactory<ForgotPasswordViewModel>(
+        () => ForgotPasswordViewModel(instance()));
+  }
+}

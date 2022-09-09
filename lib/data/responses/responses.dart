@@ -22,11 +22,11 @@ class CustomerResponse {
 
   CustomerResponse(this.id, this.name, this.numberOfNotifications);
 
-  //from json
+  //fromJson
   factory CustomerResponse.fromJson(Map<String, dynamic> json) =>
       _$CustomerResponseFromJson(json);
 
-  //to json
+  //toJson
   Map<String, dynamic> toJson() => _$CustomerResponseToJson(this);
 }
 
@@ -41,11 +41,11 @@ class ContractResponse {
 
   ContractResponse(this.phone, this.link, this.email);
 
-  //from json
+  //fromJson
   factory ContractResponse.fromJson(Map<String, dynamic> json) =>
       _$ContractResponseFromJson(json);
 
-  //to json
+  //toJson
   Map<String, dynamic> toJson() => _$ContractResponseToJson(this);
 }
 
@@ -58,10 +58,25 @@ class AuthenticationResponse extends BaseResponses {
 
   AuthenticationResponse(this.customer, this.contracts);
 
-  //from json
+  //fromJson
   factory AuthenticationResponse.fromJson(Map<String, dynamic> json) =>
       _$AuthenticationResponseFromJson(json);
 
-  //to json
+  //toJson
   Map<String, dynamic> toJson() => _$AuthenticationResponseToJson(this);
+}
+
+@JsonSerializable()
+class ForgetPasswordResponse extends BaseResponses {
+  @JsonKey(name: 'support')
+  String? support;
+
+  ForgetPasswordResponse(this.support);
+
+  //toJson
+  Map<String, dynamic> toJson() => _$ForgetPasswordResponseToJson(this);
+
+  //fromJson
+  factory ForgetPasswordResponse.fromJson(Map<String, dynamic> json) =>
+      _$ForgetPasswordResponseFromJson(json);
 }

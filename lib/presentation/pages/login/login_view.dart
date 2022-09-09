@@ -76,7 +76,7 @@ class _LoginViewState extends State<LoginView> {
   Widget _getContentWidget() {
     return Center(
       child: SingleChildScrollView(
-        padding: const EdgeInsets.all(AppPadding.p14),
+        padding: const EdgeInsets.all(AppPadding.p47),
         child: Form(
           key: _formKey,
           child: Column(
@@ -158,31 +158,36 @@ class _LoginViewState extends State<LoginView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
-          flex: 0,
-          child: TextButton(
-            onPressed: () {
-              Navigator.pushReplacementNamed(
-                context,
-                Routes.forgetPasswordRoute,
-              );
-            },
-            child: Text(
-              AppString.forgetPassword,
-              style: Theme.of(context).textTheme.subtitle2,
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: TextButton(
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  Routes.forgetPasswordRoute,
+                );
+              },
+              child: Text(
+                AppString.forgetPassword,
+                style: Theme.of(context).textTheme.subtitle2,
+              ),
             ),
           ),
         ),
         Expanded(
-          child: TextButton(
-            onPressed: () {
-              Navigator.pushReplacementNamed(
-                context,
-                Routes.forgetPasswordRoute,
-              );
-            },
-            child: Text(
-              AppString.memberSignUp,
-              style: Theme.of(context).textTheme.subtitle2,
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: TextButton(
+              onPressed: () {
+                Navigator.pushReplacementNamed(
+                  context,
+                  Routes.forgetPasswordRoute,
+                );
+              },
+              child: Text(
+                AppString.memberSignUp,
+                style: Theme.of(context).textTheme.subtitle2,
+              ),
             ),
           ),
         ),
