@@ -64,6 +64,19 @@ class EmptyState extends FlowState {
       StateRendererType.emptyScreenState;
 }
 
+//success state
+class SuccessState extends FlowState {
+  SuccessState(this.message);
+
+  String message;
+
+  @override
+  String getMessage() => message;
+
+  @override
+  StateRendererType getStateRendererType() => StateRendererType.popupSuccess;
+}
+
 extension FlowStateExtension on FlowState {
   Widget getScreenWidget(
     BuildContext context,
@@ -111,6 +124,17 @@ extension FlowStateExtension on FlowState {
           retryActionFunction: reTryActionFunctions,
         );
 
+      case SuccessState:
+        //should check if we are showing loading popup to remove it before showing success popup
+        dismissDialog(context);
+        showPopUp(
+          context,
+          StateRendererType.popupSuccess,
+          getMessage(),
+          title: AppString.success,
+        );
+        return contentScreenWidget;
+
       default:
         return contentScreenWidget;
     }
@@ -127,15 +151,14 @@ _isThereCurrentDialogShowing(BuildContext context) =>
     ModalRoute.of(context)?.isCurrent != true;
 
 showPopUp(
-  BuildContext context,
-  StateRendererType stateRendererType,
-  String message,
-) {
+    BuildContext context, StateRendererType stateRendererType, String message,
+    {String? title}) {
   WidgetsBinding.instance.addPostFrameCallback(
     (_) => showDialog(
       context: context,
       builder: (BuildContext context) => StateRenderer(
         stateRendererType: stateRendererType,
+        title: title,
         message: message,
         retryActionFunction: () {},
       ),
